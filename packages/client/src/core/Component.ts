@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 export default class Component {
   $target: HTMLElement;
-  $props?: any;
-  $state?: any;
-  constructor($target: HTMLElement, $props?: any) {
+  props?: any;
+  state?: object;
+  constructor($target: HTMLElement, props?: any) {
     this.$target = $target;
-    this.$props = $props;
+    this.props = props;
     this.setup();
     this.setEvent();
     this.render();
@@ -21,7 +21,7 @@ export default class Component {
   }
   setEvent(): void {}
   setState(newState: any): void {
-    this.$state = {...this.$state, ...newState};
+    this.state = {...this.state, ...newState};
     this.render();
   }
   addEvent(eventType: string, selector: string, callback: (event: Event) => void) {
