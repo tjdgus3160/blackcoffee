@@ -4,6 +4,7 @@ import {MenuType} from '@types';
 export default class MenuHeader extends Component {
   props!: {
     currentCategory: MenuType;
+    menuCount: number;
   };
 
   template(): string {
@@ -18,7 +19,7 @@ export default class MenuHeader extends Component {
 
     return `
         <h2 id="category-title" class="mt-1">${CATEGORY_TITLE[currentCategory]} 메뉴 관리</h2>
-        <span class="mr-2 mt-4 menu-count">총 0개</span>
+        <span class="mr-2 mt-4 menu-count">총 ${this.props.menuCount}개</span>
         `;
   }
 }
