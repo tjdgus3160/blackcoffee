@@ -1,3 +1,5 @@
+import {find} from 'lodash-es';
+
 import Component from '@core/Component';
 import {MenuItem, MenuType} from '@types';
 
@@ -48,7 +50,7 @@ export default class App extends Component {
   mounted(): void {
     if (this.state === undefined) return;
 
-    const {changeCategory} = this;
+    const {changeCategory, addMenuName} = this;
     const {currentCategory, menu} = this.state;
 
     const $navigator = this.$target.querySelector('#navigator') as HTMLElement;
@@ -62,7 +64,9 @@ export default class App extends Component {
     new MenuHeader($menuHeader, {
       currentCategory,
     });
-    new MenuForm($menuForm);
+    new MenuForm($menuForm, {
+      addMenuName: addMenuName.bind(this),
+    });
     new MenuList($menuList, {
       menu,
     });
@@ -72,5 +76,19 @@ export default class App extends Component {
     if (e.target instanceof HTMLButtonElement) {
       this.setState({currentCategory: e.target.dataset.categoryName as MenuType});
     }
+  }
+
+  async addMenuName(name: string) {
+    const newMenu = await MenuService.createMenu(this.state.currentCategory, name);
+
+    if (!newMenu) {
+      return;
+    }
+
+    if (find(this.state.menu, {name})) {
+      alert('이미 등록된 메뉴입니. 다시 입력해주세요.');
+    }
+
+    this.setState({menu: [...this.state.menu, newMenu]});
   }
 }

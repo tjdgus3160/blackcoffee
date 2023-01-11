@@ -13,7 +13,7 @@ export default class MenuService {
     return this.request(`/category/${category}/menu`);
   }
 
-  static async createMenu(category: MenuType, name: string) {
+  static async createMenu(category: MenuType, name: string): Promise<MenuItem> {
     return this.request(`/category/${category}/menu`, option('POST', {name}));
   }
 
@@ -33,7 +33,11 @@ export default class MenuService {
     const response = await fetch(`${BASE_URL}${url}`, option);
 
     if (!response.ok) {
-      alert('에러가 발생했습니다.');
+      const error = await response.json();
+
+      alert(error.message);
+
+      return;
     }
 
     return option?.method === 'DELETE' ? response : response.json();

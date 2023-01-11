@@ -1,6 +1,12 @@
+import {isEmpty} from 'lodash-es';
+
 import Component from '@core/Component';
 
 export default class MenuForm extends Component {
+  props!: {
+    addMenuName: (name: string) => Promise<void>;
+  };
+
   template(): string {
     return `
         <div class="d-flex w-100">
@@ -18,5 +24,26 @@ export default class MenuForm extends Component {
             </button>
             <input type="hidden" />
         </div>`;
+  }
+  setEvent(): void {
+    const addMenuName = (e: Event) => {
+      if (e instanceof KeyboardEvent && e.key !== 'Enter') {
+        return;
+      }
+      e.preventDefault();
+
+      const menuInput$ = document.querySelector('#menu-name') as HTMLInputElement;
+
+      if (isEmpty(menuInput$.value)) {
+        return;
+      }
+
+      this.props.addMenuName(menuInput$.value);
+
+      menuInput$.value = '';
+    };
+
+    this.addEvent('keypress', '#menu-name', addMenuName);
+    this.addEvent('click', '#menu-submit-button', addMenuName);
   }
 }
