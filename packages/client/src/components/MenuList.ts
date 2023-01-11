@@ -8,6 +8,8 @@ export default class MenuList extends Component {
   props!: {
     menu: MenuItem[];
     updateMenu: (menuId: string, updatedMenuName: string) => Promise<void>;
+    deleteMenu: (menuId: string) => Promise<void>;
+    toggleSoldOutMenu: (menuId: string) => Promise<void>;
   };
 
   template(): string {
@@ -39,12 +41,30 @@ export default class MenuList extends Component {
   }
 
   setEvent(): void {
-    this.addEvent('click', '.menu-edit-button', e => {
-      const menuId = (e.target as HTMLButtonElement).closest('li')!.dataset.menuId as string;
-      const menuName$ = this.$target.querySelector('.menu-name') as HTMLSpanElement;
-      const updatedMenuName = prompt('메뉴명을 수정하세요', menuName$.innerText) || menuName$.innerText;
+    this.addEvent('click', 'li', (e: Event) => {
+      if (!(e.target instanceof HTMLButtonElement)) {
+        return;
+      }
 
-      this.props.updateMenu(menuId, updatedMenuName);
+      const isEditButton = e.target.classList.contains('menu-edit-button');
+      const isRemoveButton = e.target.classList.contains('menu-remove-button');
+      const isSoldOutButton = e.target.classList.contains('menu-sold-out-button');
+
+      const menuListItem$ = e.target.closest('li') as HTMLLIElement;
+      const menuId = menuListItem$.dataset.menuId as string;
+
+      if (isEditButton) {
+        const menuName$ = menuListItem$.querySelector('.menu-name') as HTMLSpanElement;
+        const updatedMenuName = prompt('메뉴명을 수정하세요', menuName$.innerText) || menuName$.innerText;
+
+        this.props.updateMenu(menuId, updatedMenuName);
+      }
+      if (isRemoveButton && confirm('정말 삭제하시겠습니까?')) {
+        this.props.deleteMenu(menuId);
+      }
+      if (isSoldOutButton) {
+        this.props.toggleSoldOutMenu(menuId);
+      }
     });
   }
 }

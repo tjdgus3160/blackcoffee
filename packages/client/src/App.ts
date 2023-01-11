@@ -50,7 +50,7 @@ export default class App extends Component {
   mounted(): void {
     if (this.state === undefined) return;
 
-    const {changeCategory, addMenu, updateMenu} = this;
+    const {changeCategory, addMenu, updateMenu, deleteMenu, toggleSoldOutMenu} = this;
     const {currentCategory, menu} = this.state;
 
     const $navigator = this.$target.querySelector('#navigator') as HTMLElement;
@@ -71,12 +71,17 @@ export default class App extends Component {
     new MenuList($menuList, {
       menu,
       updateMenu: updateMenu.bind(this),
+      deleteMenu: deleteMenu.bind(this),
+      toggleSoldOutMenu: toggleSoldOutMenu.bind(this),
     });
   }
 
-  changeCategory(e: Event) {
+  async changeCategory(e: Event) {
     if (e.target instanceof HTMLButtonElement) {
-      this.setState({currentCategory: e.target.dataset.categoryName as MenuType});
+      const currentCategory = e.target.dataset.categoryName as MenuType;
+      const menu = await MenuService.getAllMenuByCategory(currentCategory);
+
+      this.setState({currentCategory, menu});
     }
   }
 
@@ -96,6 +101,22 @@ export default class App extends Component {
 
   async updateMenu(menuId: string, updatedMenuName: string) {
     await MenuService.updateMenu(this.state.currentCategory, menuId, updatedMenuName);
+
+    const menu = await MenuService.getAllMenuByCategory(this.state.currentCategory);
+
+    this.setState({menu});
+  }
+
+  async deleteMenu(menuId: string) {
+    await MenuService.deleteMenu(this.state.currentCategory, menuId);
+
+    const menu = await MenuService.getAllMenuByCategory(this.state.currentCategory);
+
+    this.setState({menu});
+  }
+
+  async toggleSoldOutMenu(menuId: string) {
+    await MenuService.toggleSoldOutMenu(this.state.currentCategory, menuId);
 
     const menu = await MenuService.getAllMenuByCategory(this.state.currentCategory);
 
