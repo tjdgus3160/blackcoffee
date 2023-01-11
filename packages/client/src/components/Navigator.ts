@@ -5,6 +5,9 @@ import {MenuType} from '@types';
 
 export default class Navigator extends Component {
   state!: Record<MenuType, string>;
+  props!: {
+    changeCategory: (e: Event) => void;
+  };
 
   setup(): void {
     this.state = {
@@ -31,5 +34,11 @@ export default class Navigator extends Component {
             ).join('')}
         </nav>
         `;
+  }
+
+  setEvent(): void {
+    const {changeCategory} = this.props;
+
+    this.addEvent('click', 'button', changeCategory);
   }
 }

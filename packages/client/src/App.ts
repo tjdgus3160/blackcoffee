@@ -1,4 +1,5 @@
 import Component from '@core/Component';
+import {MenuType} from '@types';
 
 import MenuForm from './components/MenuForm';
 import MenuHeader from './components/MenuHeader';
@@ -6,6 +7,16 @@ import MenuList from './components/MenuList';
 import Navigator from './components/Navigator';
 
 export default class App extends Component {
+  state!: {
+    currentCategory: MenuType;
+  };
+
+  setup(): void {
+    this.state = {
+      currentCategory: 'espresso',
+    };
+  }
+
   template(): string {
     return `
     <div id="app" class="px-4">
@@ -26,14 +37,27 @@ export default class App extends Component {
   }
 
   mounted(): void {
+    const {changeCategory} = this;
+    const {currentCategory} = this.state;
+
     const $navigator = this.$target.querySelector('#navigator') as HTMLElement;
     const $menuHeader = this.$target.querySelector('#menu-header') as HTMLElement;
     const $menuForm = this.$target.querySelector('#menu-form') as HTMLElement;
     const $menuList = this.$target.querySelector('#menu-list') as HTMLElement;
 
-    new Navigator($navigator);
-    new MenuHeader($menuHeader);
+    new Navigator($navigator, {
+      changeCategory: changeCategory.bind(this),
+    });
+    new MenuHeader($menuHeader, {
+      currentCategory,
+    });
     new MenuForm($menuForm);
     new MenuList($menuList);
+  }
+
+  changeCategory(e: Event) {
+    if (e.target instanceof HTMLButtonElement) {
+      this.setState({currentCategory: e.target.dataset.categoryName as MenuType});
+    }
   }
 }
