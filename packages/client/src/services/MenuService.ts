@@ -9,27 +9,27 @@ const option = (method: string, data?: any) => ({
 });
 
 export default class MenuService {
-  async getAllMenuByCategory(category: MenuType): Promise<MenuItem[]> {
+  static async getAllMenuByCategory(category: MenuType): Promise<MenuItem[]> {
     return this.request(`/category/${category}/menu`);
   }
 
-  async createMenu(category: MenuType, name: string) {
+  static async createMenu(category: MenuType, name: string) {
     return this.request(`/category/${category}/menu`, option('POST', {name}));
   }
 
-  async updateMenu(category: MenuType, menuId: string, name: string) {
+  static async updateMenu(category: MenuType, menuId: string, name: string) {
     return this.request(`/category/${category}/menu/${menuId}`, option('PUT', {name}));
   }
 
-  async toggleSoldOutMenu(category: MenuType, menuId: string) {
+  static async toggleSoldOutMenu(category: MenuType, menuId: string) {
     return this.request(`/category/${category}/menu/${menuId}/soldout`, option('PUT'));
   }
 
-  async deleteMenu(category: MenuType, menuId: string) {
+  static async deleteMenu(category: MenuType, menuId: string) {
     return this.request(`/category/${category}/menu/${menuId}`, option('DELETE'));
   }
 
-  async request(url: string, option?: any) {
+  static async request(url: string, option?: any) {
     const response = await fetch(`${BASE_URL}${url}`, option);
 
     if (!response.ok) {
