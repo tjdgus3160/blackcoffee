@@ -50,7 +50,7 @@ export default class App extends Component {
   mounted(): void {
     if (this.state === undefined) return;
 
-    const {changeCategory, addMenuName} = this;
+    const {changeCategory, addMenu, updateMenu} = this;
     const {currentCategory, menu} = this.state;
 
     const $navigator = this.$target.querySelector('#navigator') as HTMLElement;
@@ -63,12 +63,14 @@ export default class App extends Component {
     });
     new MenuHeader($menuHeader, {
       currentCategory,
+      menuCount: this.state.menu.length,
     });
     new MenuForm($menuForm, {
-      addMenuName: addMenuName.bind(this),
+      addMenu: addMenu.bind(this),
     });
     new MenuList($menuList, {
       menu,
+      updateMenu: updateMenu.bind(this),
     });
   }
 
@@ -78,7 +80,7 @@ export default class App extends Component {
     }
   }
 
-  async addMenuName(name: string) {
+  async addMenu(name: string) {
     const newMenu = await MenuService.createMenu(this.state.currentCategory, name);
 
     if (!newMenu) {
@@ -90,5 +92,13 @@ export default class App extends Component {
     }
 
     this.setState({menu: [...this.state.menu, newMenu]});
+  }
+
+  async updateMenu(menuId: string, updatedMenuName: string) {
+    await MenuService.updateMenu(this.state.currentCategory, menuId, updatedMenuName);
+
+    const menu = await MenuService.getAllMenuByCategory(this.state.currentCategory);
+
+    this.setState({menu});
   }
 }

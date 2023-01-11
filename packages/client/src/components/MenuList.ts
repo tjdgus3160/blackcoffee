@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {map} from 'lodash-es';
 
 import Component from '@core/Component';
@@ -6,6 +7,7 @@ import {MenuItem} from '@types';
 export default class MenuList extends Component {
   props!: {
     menu: MenuItem[];
+    updateMenu: (menuId: string, updatedMenuName: string) => Promise<void>;
   };
 
   template(): string {
@@ -34,5 +36,15 @@ export default class MenuList extends Component {
           </button>
         </li>`,
     ).join('');
+  }
+
+  setEvent(): void {
+    this.addEvent('click', '.menu-edit-button', e => {
+      const menuId = (e.target as HTMLButtonElement).closest('li')!.dataset.menuId as string;
+      const menuName$ = this.$target.querySelector('.menu-name') as HTMLSpanElement;
+      const updatedMenuName = prompt('메뉴명을 수정하세요', menuName$.innerText) || menuName$.innerText;
+
+      this.props.updateMenu(menuId, updatedMenuName);
+    });
   }
 }
