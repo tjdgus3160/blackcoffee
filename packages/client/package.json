@@ -1,9 +1,25 @@
 {
   "name": "client",
   "version": "1.0.0",
+  "scripts": {
+    "prestart": "tsc",
+    "start": "webpack serve --open",
+    "dev": "webpack serve --open",
+    "build": "webpack"
+  },
+  "license": "ISC",
   "devDependencies": {
+    "@types/html-webpack-plugin": "^3.2.6",
     "@types/lodash-es": "^4.17.6",
-    "ts-node": "^10.9.1"
+    "@types/webpack": "^5.28.0",
+    "@types/webpack-dev-server": "^4.7.2",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "lodash-es": "^4.17.21"
