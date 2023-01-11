@@ -4,7 +4,7 @@ import Component from '@core/Component';
 
 export default class MenuForm extends Component {
   props!: {
-    addMenuName: (name: string) => Promise<void>;
+    addMenu: (name: string) => Promise<void>;
   };
 
   template(): string {
@@ -26,7 +26,7 @@ export default class MenuForm extends Component {
         </div>`;
   }
   setEvent(): void {
-    const addMenuName = (e: Event) => {
+    const addMenu = (e: Event) => {
       if (e instanceof KeyboardEvent && e.key !== 'Enter') {
         return;
       }
@@ -38,12 +38,12 @@ export default class MenuForm extends Component {
         return;
       }
 
-      this.props.addMenuName(menuInput$.value);
+      this.props.addMenu(menuInput$.value);
 
       menuInput$.value = '';
     };
 
-    this.addEvent('keypress', '#menu-name', addMenuName);
-    this.addEvent('click', '#menu-submit-button', addMenuName);
+    this.addEvent('keypress', '#menu-name', addMenu);
+    this.addEvent('click', '#menu-submit-button', addMenu);
   }
 }
