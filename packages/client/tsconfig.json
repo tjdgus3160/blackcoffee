@@ -6,7 +6,10 @@
     "target": "es5",
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["./src/core/*"]
+    }
   },
   "ts-node": {
     "compilerOptions": {

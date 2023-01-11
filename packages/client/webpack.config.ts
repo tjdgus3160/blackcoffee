@@ -25,8 +25,7 @@ const config: webpack.Configuration = {
   resolve: {
     extensions: ['.ts', '.tsx', '.jsx', '.js'],
     alias: {
-      '@types': path.resolve(__dirname, './src/@types'),
-      '@utils': path.resolve(__dirname, './src/utils'),
+      '@core': path.resolve(__dirname, './src/core'),
     },
   },
   output: {
