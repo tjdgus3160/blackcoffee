@@ -1,20 +1,29 @@
 import Component from '@core/Component';
-import {MenuType} from '@types';
+import {MenuItem, MenuType} from '@types';
 
 import MenuForm from './components/MenuForm';
 import MenuHeader from './components/MenuHeader';
 import MenuList from './components/MenuList';
 import Navigator from './components/Navigator';
+import MenuService from './services/MenuService';
 
 export default class App extends Component {
   state!: {
     currentCategory: MenuType;
+    menu: MenuItem[];
   };
 
   setup(): void {
-    this.state = {
-      currentCategory: 'espresso',
+    const init = async () => {
+      const menu = await MenuService.getAllMenuByCategory('espresso');
+
+      this.setState({
+        currentCategory: 'espresso',
+        menu,
+      });
     };
+
+    init();
   }
 
   template(): string {
@@ -37,8 +46,10 @@ export default class App extends Component {
   }
 
   mounted(): void {
+    if (this.state === undefined) return;
+
     const {changeCategory} = this;
-    const {currentCategory} = this.state;
+    const {currentCategory, menu} = this.state;
 
     const $navigator = this.$target.querySelector('#navigator') as HTMLElement;
     const $menuHeader = this.$target.querySelector('#menu-header') as HTMLElement;
@@ -52,7 +63,9 @@ export default class App extends Component {
       currentCategory,
     });
     new MenuForm($menuForm);
-    new MenuList($menuList);
+    new MenuList($menuList, {
+      menu,
+    });
   }
 
   changeCategory(e: Event) {
