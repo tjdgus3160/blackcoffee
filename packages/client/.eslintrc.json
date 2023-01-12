@@ -4,6 +4,10 @@
   },
   "extends": ["../../.eslintrc.json"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", {"destructuredArrayIgnorePattern": "^_"}]
+    "@typescript-eslint/no-unused-vars": ["error", {"destructuredArrayIgnorePattern": "^_"}],
+    "@typescript-eslint/no-non-null-assertion": "off"
+  },
+  "globals": {
+    "React": "writable" // 사용자 전역 변수 추가
   }
 }
