@@ -6,7 +6,7 @@ export const CATEGORY = {
   desert: '🍰 디저트',
 };
 
-export const enum MenuType {
+export const enum CategoryType {
   espresso = 'espresso',
   frappuccino = 'frappuccino',
   blended = 'blended',

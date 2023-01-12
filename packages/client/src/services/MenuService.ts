@@ -1,5 +1,5 @@
 import {MenuItem} from '@types';
-import {MenuType} from '@utils';
+import {CategoryType} from '@utils';
 
 const BASE_URL = 'http://localhost:5000/api';
 
@@ -10,23 +10,23 @@ const option = (method: string, data?: any) => ({
 });
 
 export default class MenuService {
-  static async getAllMenuByCategory(category: MenuType): Promise<MenuItem[]> {
+  static async getAllMenuByCategory(category: CategoryType): Promise<MenuItem[]> {
     return this.request(`/category/${category}/menu`);
   }
 
-  static async createMenu(category: MenuType, name: string): Promise<MenuItem> {
+  static async createMenu(category: CategoryType, name: string): Promise<MenuItem> {
     return this.request(`/category/${category}/menu`, option('POST', {name}));
   }
 
-  static async updateMenu(category: MenuType, menuId: string, name: string) {
+  static async updateMenu(category: CategoryType, menuId: string, name: string) {
     return this.request(`/category/${category}/menu/${menuId}`, option('PUT', {name}));
   }
 
-  static async toggleSoldOutMenu(category: MenuType, menuId: string) {
+  static async toggleSoldOutMenu(category: CategoryType, menuId: string) {
     return this.request(`/category/${category}/menu/${menuId}/soldout`, option('PUT'));
   }
 
-  static async deleteMenu(category: MenuType, menuId: string) {
+  static async deleteMenu(category: CategoryType, menuId: string) {
     return this.request(`/category/${category}/menu/${menuId}`, option('DELETE'));
   }
 
