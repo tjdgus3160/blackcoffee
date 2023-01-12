@@ -1,3 +1,4 @@
+import MenuForm from '@components/MenuForm';
 import MenuHeader from '@components/MenuHeader';
 import Navigator from '@components/Navigator';
 
@@ -10,6 +11,7 @@ function App() {
           <main className="mt-10 d-flex justify-center">
             <div className="wrapper bg-white p-10">
               <MenuHeader />
+              <MenuForm />
             </div>
           </main>
         </div>
