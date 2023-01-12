@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchMenu(currentCategory));
-  }, []);
+  }, [currentCategory]);
 
   return (
     <div id="app" className="px-4">
