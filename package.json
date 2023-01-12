@@ -6,7 +6,7 @@
   "scripts": {
     "client": "yarn workspace client",
     "server": "yarn workspace server",
-    "start": "concurrently \"yarn client dev\" \"yarn server start\""
+    "start": "concurrently \"yarn client start\" \"yarn server start\""
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
