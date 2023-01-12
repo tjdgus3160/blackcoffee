@@ -3,12 +3,12 @@ import {selectMenu} from '@store/menuSlice';
 import {CATEGORY} from '@utils';
 
 const MenuHeader = () => {
-  const {currentCategory} = useAppSelector(selectMenu);
+  const {currentCategory, menus} = useAppSelector(selectMenu);
 
   return (
     <div className="d-flex justify-between">
       <h2 className="mt-1">{CATEGORY[currentCategory]} 메뉴 관리</h2>
-      <span className="mr-2 mt-4">총 0개</span>
+      <span className="mr-2 mt-4">총 {menus.length}개</span>
     </div>
   );
 };
