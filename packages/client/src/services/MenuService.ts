@@ -1,46 +1,31 @@
+import axios from 'axios';
+
 import {MenuItem} from '@types';
 import {CategoryType} from '@utils';
 
-const BASE_URL = 'http://localhost:5000/api';
-
-const option = (method: string, data?: any) => ({
-  method,
-  headers: {'Content-Type': 'application/json'},
-  body: data ? JSON.stringify(data) : null,
-});
+axios.defaults.baseURL = 'http://localhost:5000/api';
 
 export default class MenuService {
   static async getAllMenuByCategory(category: CategoryType): Promise<MenuItem[]> {
-    return this.request(`/category/${category}/menu`);
+    return await axios.get(`/category/${category}/menu`).then(res => res.data);
   }
 
-  static async createMenu(category: CategoryType, name: string): Promise<MenuItem> {
-    return this.request(`/category/${category}/menu`, option('POST', {name}));
+  static async createMenu(category: CategoryType, name: string): Promise<MenuItem | void> {
+    return await axios
+      .post(`/category/${category}/menu`, {name})
+      .then(res => res.data)
+      .catch(error => alert(error.response.data.message));
   }
 
-  static async updateMenu(category: CategoryType, menuId: string, name: string) {
-    return this.request(`/category/${category}/menu/${menuId}`, option('PUT', {name}));
-  }
-
-  static async toggleSoldOutMenu(category: CategoryType, menuId: string) {
-    return this.request(`/category/${category}/menu/${menuId}/soldout`, option('PUT'));
+  static async updateMenu(category: CategoryType, menuId: string, name: string): Promise<MenuItem> {
+    return await axios.put(`/category/${category}/menu/${menuId}`, {name}).then(res => res.data);
   }
 
   static async deleteMenu(category: CategoryType, menuId: string) {
-    return this.request(`/category/${category}/menu/${menuId}`, option('DELETE'));
+    return await axios.delete(`/category/${category}/menu/${menuId}`).then(res => res.data);
   }
 
-  static async request(url: string, option?: any) {
-    const response = await fetch(`${BASE_URL}${url}`, option);
-
-    if (!response.ok) {
-      const error = await response.json();
-
-      alert(error.message);
-
-      return;
-    }
-
-    return option?.method === 'DELETE' ? response : response.json();
+  static async toggleSoldOutMenu(category: CategoryType, menuId: string): Promise<MenuItem> {
+    return await axios.put(`/category/${category}/menu/${menuId}/soldout`).then(res => res.data);
   }
 }
