@@ -1,5 +1,6 @@
 import MenuForm from '@components/MenuForm';
 import MenuHeader from '@components/MenuHeader';
+import MenuList from '@components/MenuList';
 import Navigator from '@components/Navigator';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
             <div className="wrapper bg-white p-10">
               <MenuHeader />
               <MenuForm />
+              <MenuList />
             </div>
           </main>
         </div>
