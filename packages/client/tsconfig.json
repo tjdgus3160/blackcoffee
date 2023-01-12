@@ -10,7 +10,9 @@
     "baseUrl": "src",
     "paths": {
       "@components/*": ["./components/*"],
-      "@utils": ["./utils"]
+      "@utils": ["./utils"],
+      "@hooks": ["./hooks"],
+      "@store/*": ["./store/*"]
     }
   },
   "include": ["src"]
