@@ -5,12 +5,12 @@ import {MenuItem} from '@types';
 import {MenuType} from '@utils';
 
 export interface State {
-  currentMenu: MenuType;
+  currentCategory: MenuType;
   menus: MenuItem[];
 }
 
 const initialState: State = {
-  currentMenu: MenuType.espresso,
+  currentCategory: MenuType.espresso,
   menus: [
     {
       id: '123',
@@ -20,21 +20,33 @@ const initialState: State = {
   ],
 };
 
-export const fetchMenu = createAsyncThunk('menu/fetchMenu', async (currentMenu: MenuType) => {
-  return await MenuService.getAllMenuByCategory(currentMenu);
+export const fetchMenu = createAsyncThunk('menu/fetchMenu', async (currentCategory: MenuType) => {
+  return await MenuService.getAllMenuByCategory(currentCategory);
 });
+
+export const addMenu = createAsyncThunk(
+  'menu/addMenu',
+  async ({currentCategory, name}: {currentCategory: MenuType; name: string}) => {
+    return await MenuService.createMenu(currentCategory, name);
+  },
+);
 
 export const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
     changeMenu: (state, action: PayloadAction<MenuType>) => {
-      state.currentMenu = action.payload;
+      state.currentCategory = action.payload;
     },
   },
   extraReducers: builder => {
     builder.addCase(fetchMenu.fulfilled, (state, action) => {
       state.menus = action.payload;
+    });
+    builder.addCase(addMenu.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.menus.push(action.payload);
+      }
     });
   },
 });
@@ -42,5 +54,5 @@ export const menuSlice = createSlice({
 export const {changeMenu} = menuSlice.actions;
 
 export const selectMenu = (state: RootState) => state.menu;
-export const selectCurrentMenu = (state: RootState) => state.menu.currentMenu;
+export const selectCurrentCategory = (state: RootState) => state.menu.currentCategory;
 export const selectMenus = (state: RootState) => state.menu.menus;
