@@ -12,7 +12,8 @@
       "@components/*": ["./components/*"],
       "@utils": ["./utils"],
       "@hooks": ["./hooks"],
-      "@store/*": ["./store/*"]
+      "@store/*": ["./store/*"],
+      "@services/*": ["./services/*"]
     }
   },
   "include": ["src"]
