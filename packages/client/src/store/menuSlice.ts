@@ -28,7 +28,7 @@ export const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    changeCategory: (state, action: PayloadAction<MenuType>) => {
+    changeMenu: (state, action: PayloadAction<MenuType>) => {
       state.currentMenu = action.payload;
     },
   },
@@ -38,6 +38,8 @@ export const menuSlice = createSlice({
     });
   },
 });
+
+export const {changeMenu} = menuSlice.actions;
 
 export const selectMenu = (state: RootState) => state.menu;
 export const selectCurrentMenu = (state: RootState) => state.menu.currentMenu;

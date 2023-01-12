@@ -1,8 +1,12 @@
 import {map} from 'lodash-es';
 
-import {CATEGORY} from '@utils';
+import {useAppDispatch} from '@hooks';
+import {changeMenu} from '@store/menuSlice';
+import {CATEGORY, MenuType} from '@utils';
 
 const Navigator = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <header className="my-4">
       <a href="/" className="text-black">
@@ -10,7 +14,11 @@ const Navigator = () => {
       </a>
       <nav className="d-flex justify-center flex-wrap">
         {map(CATEGORY, (value, key) => (
-          <button key={key} className="cafe-category-name btn bg-white shadow mx-1">
+          <button
+            key={key}
+            onClick={() => dispatch(changeMenu(key as MenuType))}
+            className="cafe-category-name btn bg-white shadow mx-1"
+          >
             {value}
           </button>
         ))}
