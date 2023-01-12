@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, useCallback, useState} from 'react';
 import {isEmpty} from 'lodash-es';
 
 import {useAppDispatch, useAppSelector} from '@hooks';
@@ -9,21 +9,27 @@ const MenuForm = () => {
   const dispatch = useAppDispatch();
   const currentCategory = useAppSelector(selectCurrentCategory);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const onSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>): void => {
+      e.preventDefault();
 
-    if (isEmpty(name)) {
-      return;
-    }
+      if (isEmpty(name)) {
+        return;
+      }
 
-    dispatch(addMenu({currentCategory, name}));
+      dispatch(addMenu({currentCategory, name}));
 
-    setName('');
-  };
+      setName('');
+    },
+    [name, setName, dispatch],
+  );
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setName(e.target.value);
+    },
+    [setName],
+  );
 
   return (
     <form onSubmit={onSubmit}>

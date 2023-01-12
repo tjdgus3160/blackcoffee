@@ -1,11 +1,19 @@
+import {useCallback} from 'react';
 import {map} from 'lodash-es';
 
 import {useAppDispatch} from '@hooks';
-import {changeMenu} from '@store/menuSlice';
-import {CATEGORY, MenuType} from '@utils';
+import {changeCategory} from '@store/menuSlice';
+import {CATEGORY, CategoryType} from '@utils';
 
 const Navigator = () => {
   const dispatch = useAppDispatch();
+
+  const handleChangeCategory = useCallback(
+    (cagegory: CategoryType) => {
+      dispatch(changeCategory(cagegory));
+    },
+    [dispatch],
+  );
 
   return (
     <header className="my-4">
@@ -16,7 +24,7 @@ const Navigator = () => {
         {map(CATEGORY, (value, key) => (
           <button
             key={key}
-            onClick={() => dispatch(changeMenu(key as MenuType))}
+            onClick={() => handleChangeCategory(key as CategoryType)}
             className="cafe-category-name btn bg-white shadow mx-1"
           >
             {value}
