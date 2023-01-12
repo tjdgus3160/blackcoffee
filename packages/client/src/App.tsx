@@ -5,14 +5,14 @@ import MenuHeader from '@components/MenuHeader';
 import MenuList from '@components/MenuList';
 import Navigator from '@components/Navigator';
 import {useAppDispatch, useAppSelector} from '@hooks';
-import {fetchMenu, selectCurrentMenu} from '@store/menuSlice';
+import {fetchMenu, selectCurrentCategory} from '@store/menuSlice';
 
 function App() {
-  const currentMenu = useAppSelector(selectCurrentMenu);
+  const currentCategory = useAppSelector(selectCurrentCategory);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchMenu(currentMenu));
+    dispatch(fetchMenu(currentCategory));
   }, []);
 
   return (
