@@ -10,7 +10,7 @@
     "createDefaultProgram": true
   },
   "parser": "@typescript-eslint/parser",
-  "ignorePatterns": [".eslintrc.json", "/node_modules/**"],
+  "ignorePatterns": [".eslintrc.json", "/node_modules/**", "craco.config.js"],
   "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
