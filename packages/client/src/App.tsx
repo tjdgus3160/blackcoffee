@@ -1,3 +1,4 @@
+import MenuHeader from '@components/MenuHeader';
 import Navigator from '@components/Navigator';
 
 function App() {
@@ -7,7 +8,9 @@ function App() {
         <div className="w-100">
           <Navigator />
           <main className="mt-10 d-flex justify-center">
-            <div className="wrapper bg-white p-10"></div>
+            <div className="wrapper bg-white p-10">
+              <MenuHeader />
+            </div>
           </main>
         </div>
       </div>
